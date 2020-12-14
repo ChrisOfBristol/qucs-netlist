@@ -1,0 +1,1402 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.4.2.2 (Linux)"/>
+	<meta name="created" content="2020-04-09T20:19:13.588863709"/>
+	<meta name="changed" content="2020-04-23T14:45:48.583900814"/>
+	<style type="text/css">
+		@page { size: 21cm 29.7cm; margin: 1cm }
+		p { margin-bottom: 0.25cm; background: transparent; line-height: 115%; background: transparent }
+		td p { background: transparent; background: transparent }
+		a:link { color: #000080; so-language: zxx; text-decoration: underline }
+		a:visited { color: #800000; so-language: zxx; text-decoration: underline }
+	</style>
+</head>
+<body lang="en-GB" link="#000080" vlink="#800000" dir="ltr"><p style="margin-bottom: 0cm; line-height: 100%; page-break-before: always">
+<b>Converting a Qucs Schematic to a VeroRoute Netlist</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><b>Valid Components</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="font-weight: normal">A
+selection of useful Qucs components was chosen (see list below) and a
+schematic containing them all drawn called qucs-netlist.sch . The
+components were then associated with gEDA VeroRoute components as
+there is a reasonable selection of them and their component names are
+valid in VeroRoute, so a</span> <span style="font-weight: normal">netlist
+using them can be imported. Component sizes were not considered as
+Qucs components haven’t got sizes – it’s not really relevant on
+a schematic. The size of imported components can be adjusted in
+VeroRoute anyway. The Qucs libraries could have special components
+added for VeroRoute, for different sizes for example.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="font-weight: normal">The
+program could be used to create a netlist for a different PCB layout
+application if that</span> <span style="font-weight: normal">accepted
+VerRoute component names, or a datafile with acceptable component
+names was created.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><b>The Qucs
+schematic file is used to find</b> <b>the components</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">The Qucs parts
+library is here <i>/usr/local/share/qucs/library/*.lib</i></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">There is a little
+information here
+<i>https://qucs-help.readthedocs.io/en/latest/internal.html?highlight=create%20net</i></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">File contents</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Irrelevant rows are
+skipped until the section that starts with the line &lt;Components&gt;.
+This section contains the circuit components of the schematic. The
+conversion ends with the line &lt;/Components&gt;. 
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Example line <i><span style="font-weight: normal">&lt;R
+R1 1 50 20 -26 15 0 0 &quot;50 Ohm&quot; 1 &quot;26.85&quot; 0 &quot;0.0&quot;
+0 &quot;0.0&quot; 0 &quot;26.85&quot; 0 &quot;european&quot; 0&gt;</span></i></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">The line format is:</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<table width="718" cellpadding="2" cellspacing="0" style="background: transparent">
+	<col width="86"/>
+
+	<col width="154"/>
+
+	<col width="61"/>
+
+	<col width="64"/>
+
+	<col width="154"/>
+
+	<col width="72"/>
+
+	<col width="97"/>
+
+	<tr style="background: transparent" valign="top">
+		<td width="86" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Field:</p>
+		</td>
+		<td width="154" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			0</p>
+		</td>
+		<td width="61" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			1</p>
+		</td>
+		<td width="64" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			2</p>
+		</td>
+		<td width="154" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			9</p>
+		</td>
+		<td width="72" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			11</p>
+		</td>
+		<td width="97" style="border: 1px solid #000000; padding: 0.05cm"><p>
+			13</p>
+		</td>
+	</tr>
+	<tr style="background: transparent" valign="top">
+		<td width="86" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Contents</p>
+		</td>
+		<td width="154" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Qucs component type</p>
+		</td>
+		<td width="61" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Name</p>
+		</td>
+		<td width="64" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Active</p>
+		</td>
+		<td width="154" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			DetailA</p>
+		</td>
+		<td width="72" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="97" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0.05cm"><p>
+			DetailB</p>
+		</td>
+	</tr>
+	<tr style="background: transparent" valign="top">
+		<td width="86" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			OR</p>
+		</td>
+		<td width="154" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="61" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="64" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="154" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="72" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="97" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0.05cm"><p>
+			<br/>
+
+			</p>
+		</td>
+	</tr>
+	<tr style="background: transparent" valign="top">
+		<td width="86" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Contents</p>
+		</td>
+		<td width="154" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Lib</p>
+		</td>
+		<td width="61" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Name</p>
+		</td>
+		<td width="64" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			<br/>
+
+			</p>
+		</td>
+		<td width="154" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Qucs component type</p>
+		</td>
+		<td width="72" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			DetailA</p>
+		</td>
+		<td width="97" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0.05cm"><p>
+			<br/>
+
+			</p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><b>The Qucs sim</b>
+<b>file is used to find</b> <b>the nets</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%">The Python script
+produces this from the schematic file by using the Qucs Snap with the
+command</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><i>qucs-spice.qucs
+-i inputfile.sch -o outputfile.sim -n </i>
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">File contents</p>
+<p style="margin-bottom: 0cm; line-height: 100%">The file does not
+contain hidden components. Lines between .Def:name to .Def:End are
+irrelevant and skipped. The rest contain netlist details.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="font-variant: normal"><span style="font-style: normal">Example
+line </span></span><i>R:R8 _net0 _net1 R=&quot;50 Ohm&quot;
+Temp=&quot;26.85&quot; Tc1=&quot;0.0&quot; Tc2=&quot;0.0&quot;
+Tnom=&quot;26.85&quot;</i></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; font-variant: normal; font-style: normal; line-height: 100%">
+The line format is:</p>
+<table width="100%" cellpadding="2" cellspacing="0">
+	<col width="31*"/>
+
+	<col width="66*"/>
+
+	<col width="32*"/>
+
+	<col width="27*"/>
+
+	<col width="41*"/>
+
+	<col width="59*"/>
+
+	<tr valign="top">
+		<td width="12%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Field:</p>
+		</td>
+		<td width="26%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			0</p>
+		</td>
+		<td width="13%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			1</p>
+		</td>
+		<td width="10%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			2</p>
+		</td>
+		<td width="16%" style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			...</p>
+		</td>
+		<td width="23%" style="border: 1px solid #000000; padding: 0.05cm"><p>
+			...</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="12%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Contents</p>
+		</td>
+		<td width="26%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			N/A‘:’Name</p>
+		</td>
+		<td width="13%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Netname1</p>
+		</td>
+		<td width="10%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Netname2</p>
+		</td>
+		<td width="16%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm"><p>
+			Netname...</p>
+		</td>
+		<td width="23%" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0.05cm"><p>
+			detail...</p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0cm; line-height: 100%">The first field
+contains Qucs component type and name separated by a colon. Then
+netnames, they are followed by component details in the format
+xxx=xxxx.</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%; page-break-before: always">
+<b>QUCS components which should</b> <b>be converted for VeroRoute</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><span style="font-weight: normal">A
+few didn’t have a VeroRoute equivalent</span> <span style="font-weight: normal">and
+a few haven’t been converted yet, they are noted below and marked
+as “inactive” on the schematic.</span> <span style="font-weight: normal">The
+n-channel _MOSFET and NMOSGET</span> <span style="font-weight: normal">are
+not converted because the component details in the schematic don’t
+indicate whether it has TO92 or a TO220 base.</span></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><b>From Components
+Tab</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%">lumped components</p>
+<p style="margin-bottom: 0cm; line-height: 100%">resistor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">resistor us</p>
+<p style="margin-bottom: 0cm; line-height: 100%">capacitor polarised
+and unpolarised</p>
+<p style="margin-bottom: 0cm; line-height: 100%">inductor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">ground</p>
+<p style="margin-bottom: 0cm; line-height: 100%">transformer {no
+equivalent}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">switch</p>
+<p style="margin-bottom: 0cm; line-height: 100%">relay</p>
+<p style="margin-bottom: 0cm; line-height: 100%">sources</p>
+<p style="margin-bottom: 0cm; line-height: 100%">dc voltage</p>
+<p style="margin-bottom: 0cm; line-height: 100%">ac voltage</p>
+<p style="margin-bottom: 0cm; line-height: 100%">probes</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">transmission lines</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">nonlinear components</p>
+<p style="margin-bottom: 0cm; line-height: 100%">diode</p>
+<p style="margin-bottom: 0cm; line-height: 100%">npn transistor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">pnp transistor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">n-JFET {not
+converted yet}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">p-JFET</p>
+<p style="margin-bottom: 0cm; line-height: 100%">n-MOSFET {not
+converted yet}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">p-MOSFET</p>
+<p style="margin-bottom: 0cm; line-height: 100%">OpAmp</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Diac {no equivalent}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Triac {no
+equivalent}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Thyristor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">rf components</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">verilog-a devices</p>
+<p style="margin-bottom: 0cm; line-height: 100%">potentiometer</p>
+<p style="margin-bottom: 0cm; line-height: 100%">photodiode</p>
+<p style="margin-bottom: 0cm; line-height: 100%">phototransistor</p>
+<p style="margin-bottom: 0cm; line-height: 100%">digital components</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">file components</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">simulations</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">diagrams</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">external sim
+components</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">paintings</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><b>From
+tools&gt;component library</b></p>
+<p style="margin-bottom: 0cm; line-height: 100%">1 each of, unless
+stated:</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Bridges {not yet
+converted}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Diodes</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Ideal 
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">OpAmp</p>
+<p style="margin-bottom: 0cm; line-height: 100%">JFETs</p>
+<p style="margin-bottom: 0cm; line-height: 100%">LEDs</p>
+<p style="margin-bottom: 0cm; line-height: 100%">LEDs_red</p>
+<p style="margin-bottom: 0cm; line-height: 100%">LEDs_yellow</p>
+<p style="margin-bottom: 0cm; line-height: 100%">LEDs_green</p>
+<p style="margin-bottom: 0cm; line-height: 100%">LEDs_infrared</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%">MOSFETS</p>
+<p style="margin-bottom: 0cm; line-height: 100%">NMOSFETS</p>
+<p style="margin-bottom: 0cm; line-height: 100%">OpAmps</p>
+<p style="margin-bottom: 0cm; line-height: 100%">PMOSFETS</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Regulators</p>
+<p style="margin-bottom: 0cm; line-height: 100%">4 pin {not yet
+converted}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">3 pin {not yet
+converted}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Substrates</p>
+<p style="margin-bottom: 0cm; line-height: 100%">{none}</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Transistors</p>
+<p style="margin-bottom: 0cm; line-height: 100%">npn</p>
+<p style="margin-bottom: 0cm; line-height: 100%">pnp</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Varistors</p>
+<p style="margin-bottom: 0cm; line-height: 100%">Z-Diodes</p>
+<table width="729" cellpadding="0" cellspacing="0" style="page-break-before: always">
+	<col width="537"/>
+
+	<col width="192"/>
+
+	<tr>
+		<td colspan="2" width="729" valign="top" style="border: none; padding: 0cm"><p>
+			<b>gEDA components</b> <b>for VeroRoute which can be used in a
+			Qucs netlist</b></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><b>Directory/File</b></p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p><b>Footprint</b></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><span style="text-decoration: none">veroroute_</span>battery/Battery</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><span style="text-decoration: none">veroroute_</span>bbd/MN3006</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3007</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3009</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3101</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3102</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3204</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3206</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3207</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/MN3209</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_bbd/SAD1024</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP16</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><span style="text-decoration: none">veroroute_</span>connector/Pad</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PAD</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_diode/Generic</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIODE</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_diode/LED</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>LED</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_diode/Schottky</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIODE</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_diode/Zener</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIODE</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Potentiometer_Offboard</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS3</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Potentiometer_Trimmer_Flat</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TRIM_FLAT</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Potentiometer_Trimmer_Vertical</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TRIM_VERT</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Speaker_Offboard</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_DIP_3PST</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_ST_DIP6</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_DIP_DPST</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_ST_DIP4</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_3PDT</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS9</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_DPDT</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS6</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_DPST</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS4</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_SPDT</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS3</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_SPST</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>PADS2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Onboard_3PDT</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_DT9</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_DPDT</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_DT6</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_DPST</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_ST4</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_SPDT</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_DT3</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_electromechanical/Switch_Offboard_SPST</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SWITCH_ST2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Comparator_LM311</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Comparator_LM319</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Comparator_LM339</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_DIP8</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_DIP10</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP10</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_DIP12</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP12</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_DIP14</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_DIP16</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP16</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_SIP8</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_SIP10</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SIP10</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_SIP12</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SIP12</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_SIP14</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Generic_SIP16</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SIP16</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OpAmp_LM324</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OpAmp_LM358</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OpAmp_LM741</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OpAmp_NJM4558L</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>SIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OpAmp_TL072</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OpAmp_TL074</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/OTA_LM13600</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP16</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_linear/Timer_NE555</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_logic/24LC32A</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP8</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_logic/4013</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP14</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_logic/4049</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP16</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_logic/4050</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP16</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Ceramic</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_CERAMIC</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Ceramic_100mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_CERAMIC1</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Ceramic_200mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_CERAMIC2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Ceramic_300mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_CERAMIC3</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_200mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_200</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_250mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_250</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_300mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_300</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_400mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_400</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_500mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_500</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_600mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_600</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_NP_200mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_200_NP</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_NP_250mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_250_NP</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_NP_300mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_300_NP</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_NP_400mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_400_NP</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_NP_500mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_500_NP</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Electrolytic_NP_600mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_ELECTRO_600_NP</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Film</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_FILM</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Film_100mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_FILM1</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Film_200mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_FILM2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Capacitor_Film_300mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CAP_FILM3</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Crystal</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>CRYSTAL</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Resistor</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>RESISTOR</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_passive/Resistor_100mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>RESISTOR1</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p style="font-variant: normal; font-style: normal">
+			veroroute_passive/Resistor_200mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p style="font-variant: normal; font-style: normal">
+			RESISTOR2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p style="font-variant: normal; font-style: normal">
+			veroroute_passive/Resistor_300mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p style="font-variant: normal; font-style: normal">
+			RESISTOR3</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p style="font-variant: normal; font-style: normal">
+			veroroute_passive/Resistor_400mil</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p style="font-variant: normal; font-style: normal">
+			RESISTOR4</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM78Lxx</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM78xx</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM79lxx</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM79xx</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM137</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM317</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM336</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM337</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LM385</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/LP2950</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p>veroroute_regulator/TL431</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><span style="text-decoration: none">veroroute_</span>spin/Spin_FV1</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>DIP28</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>Darlington_NPN_TIP100</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>Darlington_NPN_TIP101</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>Darlington_NPN_TIP102</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>Darlington_PNP_TIP105</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>Darlington_PNP_TIP106</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>Darlington_PNP_TIP107</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2N5457</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2N5458</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2N5459</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2N5484</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2N5485</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2N5486</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2SK117</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_2SK30</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_BF245</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_J201</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_J202</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>JFET_Nchannel_MPF102</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>MOSFET_Nchannel_2N7000</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>MOSFET_Nchannel_BS170</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>MOSFET_Nchannel_MTP3055</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>MOSFET_Pchannel_MTP2955</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_2N2222</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_2N3903</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_2N3904</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_2N5088</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_2N5089</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC182</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC183</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC184</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC212</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC213</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC214</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC237</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC238</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC239</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC337</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC338</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC546</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC547</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC548</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC549</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC550</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC635</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC637</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_BC639</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>T092</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_MJE3055</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_TIP31</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>NPN_TIP41</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_2N3905</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_2N3906</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_2N5086</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_2N5087</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC307</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC308</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC309</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC327</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC328</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC556</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC557</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC558</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC559</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC560</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_BC640</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO92</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_MJE2955</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_TIP32</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="537" style="border: none; padding: 0cm"><p><font size="3" style="font-size: 12pt">veroroute_transistor/</font>PNP_TIP42</p>
+		</td>
+		<td width="192" style="border: none; padding: 0cm"><p>TO220</p>
+		</td>
+	</tr>
+</table>
+<p style="margin-bottom: 0cm; line-height: 100%; page-break-before: auto; page-break-after: auto">
+<br/>
+
+</p>
+</body>
+</html>

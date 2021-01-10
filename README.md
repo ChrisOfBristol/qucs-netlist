@@ -6,15 +6,14 @@ It will run with Qucs installed from a Debian package (qucs) or from a Snap (quc
 
 INSTALLATION
 
-qucs-netlist_all .deb can't be installed with the "Software" application as it is not a complete Debian package, but if it is downloaded into your home directory it can be installed with:
+qucs-netlist_0.0.3_all.deb can't be installed with the "Software" application as it is not a complete Debian package, but if it is downloaded into your home directory it can be installed with:
 
       sudo dpkg -i qucs-netlist_0.0.3_all.deb
 
 Check the program's properties and make sure there is a tick in Permissions - Allow executing file as program.
 
 RUNNING
-
-In a terminal, cd to the directory with your QUCS schematic in, then type 
+The program cannot be run from your application menu as it needs a filename. In a terminal, cd to the directory with your QUCS schematic in, then type 
 
 		qucs-netlist mycircuit.sch
 

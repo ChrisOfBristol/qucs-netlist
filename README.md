@@ -4,7 +4,7 @@ It will run with Qucs installed from a Debian package (qucs) or from a Snap (quc
 
 INSTALLATION
 
-qucs-netlist_all .deb can't be installed with the "Software" application as it is not a complete Debian package, but if it in your home directory it can be installed with:
+qucs-netlist_all .deb can't be installed with the "Software" application as it is not a complete Debian package, but if it is downloaded into your home directory it can be installed with:
 
       sudo dpkg -i qucs-netlist_all.deb
 

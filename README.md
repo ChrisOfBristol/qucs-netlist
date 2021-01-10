@@ -8,7 +8,7 @@ INSTALLATION
 
 qucs-netlist_all .deb can't be installed with the "Software" application as it is not a complete Debian package, but if it is downloaded into your home directory it can be installed with:
 
-      sudo dpkg -i qucs-netlist_all.deb
+      sudo dpkg -i qucs-netlist_0.0.3_all.deb
 
 Check the program's properties and make sure there is a tick in Permissions - Allow executing file as program.
 

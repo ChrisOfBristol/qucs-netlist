@@ -2,6 +2,7 @@
 Will export a netlist from a Qucs schematic which is suitable for a PCB design application. 
 It will run with Qucs installed from a Debian package (qucs) or from a Snap (qucs-spice.qucs), but not from qucs-s.
 
+==LINUX==
 INSTALLATION
 
 qucs-netlist_all .deb can't be installed with the "Software" application as it is not a complete Debian package, but if it is downloaded into your home directory it can be installed with:
@@ -10,8 +11,7 @@ qucs-netlist_all .deb can't be installed with the "Software" application as it i
 
 Check the program's properties and make sure there is a tick in Permissions - Allow executing file as program.
 
-
-TO RUN
+RUNNING
 
 In a terminal, cd to the directory with your QUCS schematic in, then type 
 
@@ -23,12 +23,28 @@ If you run it again it will not overwrite the existing file, unless you add -y a
 
 		qucs-netlist mycircuit.sch -y
 
-FILES
+==OTHER SYSTEMS==
+	INSTALLATION
 
-qucs-netlist is the program.
-qucs-netlist.html is the help file.
-qucs-netlist.dat links Qucs component names with VeroRoute ones.
-qucsparts.sch is a Qucs schematic containing all the parts that the program can process. It can be used for a test of the program.
+Your system must have Python3 installed (and QUCS if that is available for your system). If Qucs is not available you could edit out the part of the program that uses it, but the output file will only contain a parts list there will be no nets.
+
+Copy the files into a convenient directory:
+
+	qucs-netlist.py is the program.
+	qucs-netlist.html is the help file.
+	qucs-netlist.dat links Qucs component names with VeroRoute ones.
+	qucsparts.sch is a Qucs schematic containing all the parts that the program can process. It can be used for a test of the program.
+
+RUNNING
+Copy the QUCS schematic to your qucs-netlist directory, then in a terminal, cd to that directory, then type 
+
+		{route to directory}qucs-netlist.py mycircuit.sch
+
+The output file will be called mycircuit.net 
+
+If you run it again it will not overwrite the existing file, unless you add -y at the end of the line:
+
+		qucs-netlist mycircuit.sch -y
 
 ERRORS
 

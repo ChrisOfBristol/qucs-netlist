@@ -3,6 +3,7 @@ Will export a netlist from a Qucs schematic which is suitable for a PCB design a
 It will run with Qucs installed from a Debian package (qucs) or from a Snap (qucs-spice.qucs), but not from qucs-s.
 
 ==LINUX==
+
 INSTALLATION
 
 qucs-netlist_all .deb can't be installed with the "Software" application as it is not a complete Debian package, but if it is downloaded into your home directory it can be installed with:
@@ -24,7 +25,8 @@ If you run it again it will not overwrite the existing file, unless you add -y a
 		qucs-netlist mycircuit.sch -y
 
 ==OTHER SYSTEMS==
-	INSTALLATION
+
+INSTALLATION
 
 Your system must have Python3 installed (and QUCS if that is available for your system). If Qucs is not available you could edit out the part of the program that uses it, but the output file will only contain a parts list there will be no nets.
 

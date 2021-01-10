@@ -81,7 +81,7 @@ def parsesim():
 
 #==========start================================================================
 import os, sys, shlex 
-print('You must "cd" to the directory with the schematic and netlist to convert.')
+print('You must "cd" to the directory with the schematic in that you want to convert.')
 print('Helpfile is "/usr/share/qucs-netlist/qucs-netlist.html".')
 
 netlist = []

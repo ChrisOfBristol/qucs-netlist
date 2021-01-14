@@ -1,6 +1,9 @@
 # qucs-netlist
 Will export a netlist from a Qucs schematic which is suitable for a PCB design application. 
-It will run with Qucs installed from a Debian package (qucs) or from a Snap (qucs-spice.qucs), but not from qucs-s.
+It uses a Qucs schematic file to add components to a netlist file.
+If there is also a Qucs .sim file it will use that to create the nets, if not it will attempt to run Qucs to create a .sim file, if Qucs has 
+been installed from a Debian package (qucs) or from a Snap (qucs-spice.qucs), that should succeed, but it won't work from from qucs-s.
+If no .sim file was present and can't be created, the output netlist file will contain components but no nets.
 
 ==LINUX==
 

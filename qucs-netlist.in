@@ -7,6 +7,7 @@ for nets as only that file contains them
 There are no checks for dependencies, so must check that it has been
 installed before calling it.
 
+DOES QUCS OUTPUT A SIM FILE WITH '.' IN FRONT?
 '''
 
 #-------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ def appendpin(net, pin):
 	for sublist in netlist:
 		if sublist[0] == net:
 			foundnet = True
-	if foundnet is False: # net not found, so add a new row for it
+	if not foundnet: # net not found, so add a new row for it
 		netlist.append ([net])
 	
 	# look for net, find it and add pin
@@ -63,7 +64,7 @@ def parsesch():
 					validparts.append(pname)
 					return('[\n'+pname+'\n'+sublist[3]+'\n'+pdetailB+'\n\n\n]\n')
 
-		if foundpart != True:
+		if not foundpart:
 			print('Warning: Unknown component type not converted: '+pname + ' ' + pqucs)	 
 			return(None)
 
@@ -86,7 +87,6 @@ def parsesim():
 #==========start================================================================
 import os, sys, shlex 
 print('If you run the program as a Python program rather than a package, you must be in the program directory.')
-print()
 print('You must have the schematic to convert in your current directory.')
 print()
 print('Helpfile is "qucs-netlist.html".')
@@ -97,10 +97,11 @@ fparts = 'qucs-netlist.dat'
 # check parameters
 if len(sys.argv) < 2:
 	print('If running as a Python program use: qucs-netlist.py inputfilename')
-  print('If running as a Debian package use: qucs-netlist inputfilename')
+	print('If running as a Debian package use: qucs-netlist inputfilename')
 	
-	print('There may also be a sim file with the .sim extension.')
-  print('There may also be a sim file with the .sim extension.')
+	print('If there is a Qucs sim file with the same file but the. sim extension that will be used to create the nets.')
+	print('If not the program will try to create it. If that fails the output file will have components but no nets.')
+	
 	print('Output file will have same name but with .net extension.')
 	print('Add "-y" to the command line to overwrite an existing file.')
 	print('Maximum 100 components.') 
@@ -109,7 +110,8 @@ if len(sys.argv) < 2:
 
 filesch	= sys.argv[1]
 filename = filesch.split('.'); filename = filename[0]
-filesim = '.'+ filename + '.sim'
+#filesim = '.'+ filename + '.sim'
+filesim = filename + '.sim'
 filenet = filename + '.net'
 
 # check overwriting of output file
@@ -146,8 +148,8 @@ if os.path.isfile(filesim):
 			oksim = False
 else:
 	oksim = False
-	
-if oksim = False: # no valid sim file exists so try to create one
+
+if not oksim: # no valid sim file exists so try to create one
 	command = 'type qucs'
 	result = os.system(command)
 	if result == 0:
@@ -158,6 +160,8 @@ if oksim = False: # no valid sim file exists so try to create one
 		result = os.system(command)
 		if result == 0:
 			command = 'qucs-spice.qucs -i ' + filesch + ' -o ' + filesim + ' -n'
+		else:
+			oksim = False	
 
 # check whether a valid sim file exists now
 if os.path.isfile(filesim):
@@ -167,6 +171,7 @@ if os.path.isfile(filesim):
 			if line[:6] != '# Qucs':
 				print('Error: Qucs simulation file is invalid.')
 		except:
+			oksim = False
 			print('Qucs sim file is empty.')
 else:
 		oksim = False
@@ -253,6 +258,6 @@ if oksim: # there is a valid simfile, process it to create nets
 			fout.write(')\n')	
 
 else:
-  print ('There was no valid sim file, so the netlist file will contain components but not nets.')
+	print ('There was no valid sim file, so the netlist file will contain components but not nets.')
 
 sys.exit(0)
